@@ -1,0 +1,95 @@
+<?php 
+ include '../config/function.php';
+
+ if(isset($_POST['saveAdmin']))
+ {
+     $name = validate($_POST['name']);
+     $email = validate($_POST['email']);
+     $password = validate($_POST['password']);
+     $phone = validate($_POST['phone']);
+     $is_ban = isset($_POST['is_ban']) == true ? 1 : 0;
+
+     if($name != '' && $email != '' && $password != ''){
+        $emailCheck = mysqli_query($conn,"SELECT * FROM admins WHERE email='$email'");
+        if($emailCheck){
+           if(mysqli_num_rows($emailCheck) > 0){
+            redirect('admin-create.php', 'Email already exists');
+           }
+        }
+
+        $bycrypt_password = password_hash($password, PASSWORD_BCRYPT);
+
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $bycrypt_password,
+            'phone' => $phone,
+            'is_ban' => $is_ban,	
+        ];
+
+        $result = insert('admins', $data);
+        if($result){
+            redirect('admins.php', 'Admin Added Successfully');
+
+        }else{
+            redirect('admin-create.php', 'Something went wrong');
+        }
+
+     }else{
+        redirect('admin-create.php', 'All fields are required');
+     }
+ }
+
+
+ if(isset($_POST['updateAdmin'])){
+     $adminId = validate($_POST['adminId']);
+     
+     $adminData = getById('admins', $adminId);
+     if($adminData['status'] != 200){
+         redirect('admin-edit.php?id='.$adminId, 'Please fill required fields.');
+     }  
+     $name = validate($_POST['name']);
+     $email = validate($_POST['email']);
+     $password = validate($_POST['password']);
+     $phone = validate($_POST['phone']);
+     $is_ban = isset($_POST['is_ban']) == true ? 1 : 0;
+
+     $EmailCheckQuery = "SELECT * FROM admins WHERE email='$email' AND id!='$adminId'";
+     $checkResult = mysqli_query($conn, $EmailCheckQuery);
+     if($checkResult){
+        if(mysqli_num_rows($checkResult) > 0){
+            redirect('admin-dedit.php?='.$adminId, 'Email Already used by another user');
+        }       
+     }     
+     
+     if($password != ''){
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+     }else{
+        $hashedPassword = $adminData['data']['password'];
+     }
+     
+     if($name != '' && $email != ''){
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $bycrypt_password,
+            'phone' => $phone,
+            'is_ban' => $is_ban,	
+        ];
+
+        $result = update('admins', $adminId, $data);
+        if($result){
+            redirect('admin-edit.php?id='.$adminId, 'Admin Updated Successfully');
+
+        }else{
+            redirect('admin-edit.php?id='.$adminId, 'Something went wrong');
+        }
+
+
+     }else{
+        redirect('admin-create.php', 'All fields are required');
+     } 
+    
+    }
+?>
