@@ -73,7 +73,7 @@
         $data = [
             'name' => $name,
             'email' => $email,
-            'password' => $bycrypt_password,
+            'password' => $hashedPassword,
             'phone' => $phone,
             'is_ban' => $is_ban,	
         ];
