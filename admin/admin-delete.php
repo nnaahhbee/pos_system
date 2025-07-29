@@ -26,7 +26,4 @@ if(is_numeric($paramResult)){
    redirect('admins.php', 'Something Went Wrong.');
 }
 
-
-
-
 ?>

@@ -1,6 +1,9 @@
 <?php 
  include '../config/function.php';
 
+ 
+ //functions for admin
+
  if(isset($_POST['saveAdmin']))
  {
      $name = validate($_POST['name']);
@@ -92,4 +95,50 @@
      } 
     
     }
+
+
+    //functions for category
+
+    if(isset($_POST['saveCategory'])){
+        $name = validate($_POST['name']);
+        $description = validate($_POST['description']);
+        $status = isset($_POST['status']) == true ? 1 : 0;
+
+         $data = [
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,	
+        ];
+
+        $result = insert('categories', $data);
+        if($result){
+            redirect('categories.php', 'Category Created Successfully');
+
+        }else{
+            redirect('categories-create.php', 'Something went wrong');
+        }
+    }
+
+
+   if(isset($_POST['updateCategory'])){
+        $categoryId = validate($_POST['categoryId']);
+        $name = validate($_POST['name']);
+        $description = validate($_POST['description']);
+        $status = isset($_POST['status']) == true ? 1 : 0;
+
+         $data = [
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,	
+        ];
+
+        $result = update('categories', $categoryId, $data);
+        if($result){
+            redirect('category-edit.php?id='.$categoryId, 'Category Updated  Successfully.');
+
+        }else{
+            redirect('category-edit.php?id='.$categoryId, 'Something went wrong');
+        }
+
+   }
 ?>
