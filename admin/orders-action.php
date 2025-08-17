@@ -36,9 +36,9 @@ if(isset($_POST['addItem'])){
                 array_push($_SESSION['productItems'], $productData);
 
             }else{
-                foreach($_SESSION['productItems'] as $key => $prodSessionItme){
-                    if($prodSessionItme['productItems'] == $row['id']){
-                        $newQuantity = $prodSessionItme['quantity'] + $quantity;
+                foreach($_SESSION['productItems'] as $key => $prodSessionItem){
+                    if($prodSessionItem['productItems'] == $row['id']){
+                        $newQuantity = $prodSessionItem['quantity'] + $quantity;
 
                         $productData = [
                             'product_id' => $row['id'],
