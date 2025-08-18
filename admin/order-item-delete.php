@@ -1,0 +1,26 @@
+<?php 
+
+require '../config/function.php';
+
+$paramResult = checkParamId('index');
+if(is_numeric(($paramResult))){
+    $indexValue = validate($paramResult);
+
+    if(isset($_SESSION['productItems']) && isset($_SESSION['productItemsId'])){
+
+       unset($_SESSION['productItems'][$indexValue]);
+       unset($_SESSION['productItemsId'][$indexValue]);
+
+       redirect('order-create.php', 'Item removed');
+
+    }else{
+        redirect('order-create.php', 'There is no item to remove');
+
+    }
+
+}else{
+    redirect('order-create.php', 'param not numeric');
+}
+
+
+?>

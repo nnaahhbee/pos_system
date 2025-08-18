@@ -57,6 +57,11 @@
         <?php
         if(isset($_SESSION['productItems'])){
           $sessionProducts = $_SESSION['productItems'];
+          if(empty($sessionProducts)){
+            unset($_SESSION['productItemsId']);
+            unset($_SESSION['productItems']);
+          }
+          
           ?>
           <div class="table-responsive mb-3" id="productContent">
           <table class="table table-bordered table-striped">
