@@ -65,6 +65,8 @@ if(isset($_POST['addItem'])){
 
 }
 
+// increase decrease product quantity
+
 if(isset($_POST['productIncDec'])){
    $productId = validate($_POST['product_id']);
    $quantity = validate($_POST['quantity']);
@@ -86,6 +88,8 @@ if(isset($_POST['productIncDec'])){
 
     }
 }
+
+// place order session - check customer
 
 if(isset($_POST['proceedToPlaceBtn'])){
     $phone = validate($_POST['cphone']);
@@ -110,7 +114,7 @@ if(isset($_POST['proceedToPlaceBtn'])){
   }
 }
 
-// add customer to customers table
+// add customer to customers table if it does not exist
 
 if(isset($_POST['saveCustomerBtn'])){
     $name = validate($_POST['name']);
